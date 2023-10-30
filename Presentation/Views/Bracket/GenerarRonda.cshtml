@@ -1,0 +1,86 @@
+﻿@model Presentation.Models.Enfrentamiento
+@{
+    ViewData["Title"] = "Rondas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .card-body {
+
+      background-size: cover;
+      background-position: center;
+    }   
+  </style>
+<h2 class="text-center" style="color: #C89B3C">Enfrentamientos Generados</h2>
+<hr style="background-color:#C89B3C; height: 2px" />
+@if (Model != null && Model.Enfrentamientos.Count > 0)
+{
+    <div class="container">
+        <div class="row">
+            @foreach (Enfrentamiento enfrentamiento in Model.Enfrentamientos)
+            {
+                <div class="col-md-5">
+                    <div class="card mb-4" style="border-color: #C89B3C; font-weight:bold;color:#C89B3C">
+                        <div class="card-body text-center border-end border-primary border-5" style="background-image: url('https://brand.riotgames.com/static/460f3585d78de6c1527c3f37b3ed2891/0ecda/05_MagicExamples_2.webp'); ">
+                            <h5 class="card-title" style="font-weight:bold">@enfrentamiento.NombreUsuario1</h5>
+                            <!-- Otros detalles del jugador 1 -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card mb-4" style="background-color:#010a13; color: #C8AA6E;  ">
+
+                        <div class="card-body text-center">
+                            <h5 class="card-title" style="font-size: xx-large">VS</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="card mb-4" style="border-color: #C89B3C; font-weight:bold;color:#C89B3C">
+
+                        <div class="card-body text-center border-start border-danger border-5" style="background-image: url('https://brand.riotgames.com/static/460f3585d78de6c1527c3f37b3ed2891/0ecda/05_MagicExamples_2.webp')">
+                            <h5 class="card-title" style="font-weight:bold" >@enfrentamiento.NombreUsuario2</h5>
+                            <!-- Otros detalles del jugador 2 -->
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="text-center">
+            @if (Model.JuadorDescansa != null)
+            {
+                <div class="col-md-4">
+                    <div class="card mb-4" style="border-color: #C89B3C; font-weight:bold">
+                        <div class="card-header text-center " style="background-color: #010a13; color: #C89B3C">
+                            Descansa
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title">@Model.JuadorDescansa</h5>
+                            <!-- Otros detalles del jugador 2 -->
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row text-center">
+                <div class="col">
+                    @using (Html.BeginForm("ConfirmarRonda", "Bracket", FormMethod.Post))
+                    {
+                        <input class=" btn btn-success" type="submit" value="Confirmar Ronda" />
+                    }
+                </div>
+
+                <div class="col">
+                    <a class="btn btn-dark" href="@Url.Action("GenerarRonda", "Bracket")">Generar Nuevamente</a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+}
+else
+{
+    <p>No se han generado enfrentamientos.</p>
+}
+

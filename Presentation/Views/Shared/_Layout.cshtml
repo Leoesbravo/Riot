@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Presentation</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Presentation.styles.css" asp-append-version="true" />
+</head>
+<body style="background-color:#010a13; cursor: url(https://brand.riotgames.com/images/league-of-legends/cursor.png), auto;">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3" style="border-bottom: solid; border-bottom-color: #C8AA6E; background-color:#010a13">
+            <div class="container-fluid">
+                <a class="navbar-brand border-end" asp-area="" asp-controller="Home" asp-action="Index" style="color:#010a13"><img src="https://static.tildacdn.com/tild6363-3366-4131-b062-323333633239/600px-League_of_Lege.png" height="40px" width="38px" />a </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                       
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Bracket" asp-action="Rondas" style="color: #C8AA6E; font-weight:bold">Opciones</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer text-muted" style="border-color: #C89B3C">
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

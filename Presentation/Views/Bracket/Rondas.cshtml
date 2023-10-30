@@ -1,0 +1,58 @@
+﻿@model Presentation.Models.Ronda
+@{
+    ViewData["Title"] = "Rondas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .cc {
+        background-image: url('https://brand.riotgames.com/static/cb5b2927e2f5f1fb7319a319746e6a86/0ecda/05_MagicExamples_3.webp');
+        background-size: cover;
+        background-position: center;
+    }
+</style>    
+<div class="text-center">
+    <h1 style="color: #C89B3C;">Opciones</h1>
+    <hr style="background-color:#C89B3C; height: 2px" />
+</div>
+<div class="cc">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4 d-flex justify-content-center">
+                <div class="card" style="width: 18rem; border-color: #C89B3C;">
+                    <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Teemo_0.jpg" class="card-img-top" alt="...">
+                    <div class="card-body" style="background-color: #010a13">
+                        <h5 class="card-title text-center" style="color:#C89B3C">Rondas</h5>
+                        <hr style="background-color:#C89B3C; height: 1px" />
+                        <p class="card-text" style="color:#C89B3C">Genera una nueva ronda o consulta el historial de rondas</p>
+                        <a class="btn btn-success" style="background-color: #010a13; color: #F0E6D2" href="@Url.Action("GenerarRonda", "Bracket")">Generar Ronda</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex justify-content-center">
+                <div class="card" style="width: 18rem; border-color: #C89B3C;">
+                    <img src="https://esports.as.com/2023/05/16/league-of-legends/skins-DRX-campeon-Worlds_1684041608_1141158_1440x810.jpg" class="card-img-top" alt="...">
+                    <div class="card-body" style="background-color: #010a13">
+                        <h5 class="card-title text-center" style="color:#C89B3C">Bracket</h5>
+                         <hr style="background-color:#C89B3C; height: 1px" />
+                        <p class="card-text" style="color:#C89B3C">Consulta el bracket final así como los resultados de las partidas</p>
+                        <a class="btn btn-success" style="background-color: #010a13; color: #F0E6D2" href="@Url.Action("GenerarRonda", "Bracket")">Ver Bracket</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 d-flex justify-content-center">
+                <div class="card" style="width: 18rem; border-color: #C89B3C;">
+                    <img src="https://i.ytimg.com/vi/g3DhRExFSAs/maxresdefault.jpg" class="card-img-top" alt="...">
+                    <div class="card-body" style="background-color: #010a13">
+                        <h5 class="card-title text-center" style="color:#C89B3C">Estadisticas</h5>
+                        <hr style="background-color:#C89B3C; height: 1px" />
+                        <p class="card-text" style="color:#C89B3C">Consulta si Angel ya pudo ganar una partida y más estadísticas</p>
+                        <a class="btn btn-success" style="background-color: #010a13; color: #F0E6D2" href="@Url.Action("GenerarRonda", "Bracket")">Ver stats</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
