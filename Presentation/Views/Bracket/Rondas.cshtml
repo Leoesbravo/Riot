@@ -1,58 +1,94 @@
-﻿@model Presentation.Models.Ronda
+﻿@model Presentation.Models.Enfrentamiento
 @{
     ViewData["Title"] = "Rondas";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+
 <style>
-    .cc {
-        background-image: url('https://brand.riotgames.com/static/cb5b2927e2f5f1fb7319a319746e6a86/0ecda/05_MagicExamples_3.webp');
+    .card-body {
         background-size: cover;
         background-position: center;
     }
-</style>    
-<div class="text-center">
-    <h1 style="color: #C89B3C;">Opciones</h1>
-    <hr style="background-color:#C89B3C; height: 2px" />
-</div>
-<div class="cc">
+</style>
+<h2 class="text-center" style="color: #C89B3C">Enfrentamientos Generados</h2>
+<hr style="background-color:#C89B3C; height: 2px" />
+@if (Model != null && Model.Enfrentamientos.Count > 0)
+{
     <div class="container">
-        <div class="row text-center">
-            <div class="col-md-4 d-flex justify-content-center">
-                <div class="card" style="width: 18rem; border-color: #C89B3C;">
-                    <img src="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Teemo_0.jpg" class="card-img-top" alt="...">
-                    <div class="card-body" style="background-color: #010a13">
-                        <h5 class="card-title text-center" style="color:#C89B3C">Rondas</h5>
-                        <hr style="background-color:#C89B3C; height: 1px" />
-                        <p class="card-text" style="color:#C89B3C">Genera una nueva ronda o consulta el historial de rondas</p>
-                        <a class="btn btn-success" style="background-color: #010a13; color: #F0E6D2" href="@Url.Action("GenerarRonda", "Bracket")">Generar Ronda</a>
+        <div class="row">
+            @foreach (Enfrentamiento enfrentamiento in Model.Enfrentamientos)
+            {
+                <div class="col-md-5">
+                    <div class="card mb-4" style="border-color: #C89B3C; font-weight:bold;color:#C89B3C">
+                        <div class="card-body text-center border-end border-primary border-5" style="background-image: url('https://brand.riotgames.com/static/460f3585d78de6c1527c3f37b3ed2891/0ecda/05_MagicExamples_2.webp'); ">
+                            <h5 class="card-title" style="font-weight:bold">@enfrentamiento.NombreUsuario1</h5>
+                            <!-- Otros detalles del jugador 1 -->
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 d-flex justify-content-center">
-                <div class="card" style="width: 18rem; border-color: #C89B3C;">
-                    <img src="https://esports.as.com/2023/05/16/league-of-legends/skins-DRX-campeon-Worlds_1684041608_1141158_1440x810.jpg" class="card-img-top" alt="...">
-                    <div class="card-body" style="background-color: #010a13">
-                        <h5 class="card-title text-center" style="color:#C89B3C">Bracket</h5>
-                         <hr style="background-color:#C89B3C; height: 1px" />
-                        <p class="card-text" style="color:#C89B3C">Consulta el bracket final así como los resultados de las partidas</p>
-                        <a class="btn btn-success" style="background-color: #010a13; color: #F0E6D2" href="@Url.Action("GenerarRonda", "Bracket")">Ver Bracket</a>
+                <div class="col-md-2">
+                    <div class="card mb-4" style="background-color:#010a13; color: #C8AA6E;  ">
+
+                        <div class="card-body text-center">
+                            <h5 class="card-title" style="font-size: xx-large">VS</h5>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4 d-flex justify-content-center">
-                <div class="card" style="width: 18rem; border-color: #C89B3C;">
-                    <img src="https://i.ytimg.com/vi/g3DhRExFSAs/maxresdefault.jpg" class="card-img-top" alt="...">
-                    <div class="card-body" style="background-color: #010a13">
-                        <h5 class="card-title text-center" style="color:#C89B3C">Estadisticas</h5>
-                        <hr style="background-color:#C89B3C; height: 1px" />
-                        <p class="card-text" style="color:#C89B3C">Consulta si Angel ya pudo ganar una partida y más estadísticas</p>
-                        <a class="btn btn-success" style="background-color: #010a13; color: #F0E6D2" href="@Url.Action("GenerarRonda", "Bracket")">Ver stats</a>
+                <div class="col-md-5">
+                    <div class="card mb-4" style="border-color: #C89B3C; font-weight:bold;color:#C89B3C">
+
+                        <div class="card-body text-center border-start border-danger border-5" style="background-image: url('https://brand.riotgames.com/static/460f3585d78de6c1527c3f37b3ed2891/0ecda/05_MagicExamples_2.webp')">
+                            <h5 class="card-title" style="font-weight:bold">@enfrentamiento.NombreUsuario2</h5>
+                            <!-- Otros detalles del jugador 2 -->
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
+        <div class="text-center">
+            @if (Model.JuadorDescansa != null)
+            {
+                <div class="col-md-4">
+                    <div class="card mb-4" style="border-color: #C89B3C; font-weight:bold">
+                        <div class="card-header text-center " style="background-color: #010a13; color: #C89B3C">
+                            Descansa
+                        </div>
+                        <div class="card-body text-center">
+                            <h5 class="card-title">@Model.JuadorDescansa</h5>
+                            <!-- Otros detalles del jugador 2 -->
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row text-center">
+                <div class="col">
+                    @using (Html.BeginForm("ConfirmarRonda", "Bracket", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    { @for (int i = 0; i < Model.Enfrentamientos.Count; i++)
+                        {
+                            @Html.HiddenFor(m => Model.Enfrentamientos[i].IdUsuario1)
+                            @Html.HiddenFor(m => Model.Enfrentamientos[i].IdUsuario2)
+                            <!-- Añade más propiedades según sea necesario -->
+                        }
+                        <input type="text" name="Ronda" value="1" hidden />
+                        <input class="btn btn-info" style="background-color: #010a13; color: #F0E6D2" type="submit" value="Confirmar Ronda" />
+                    }
+                </div>
+
+                <div class="col">
+                    <a class="btn btn-danger" style="background-color: #010a13; color: #F0E6D2" href="@Url.Action("Rondas", "Bracket")">Generar Nuevamente</a>
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
-</div>
+}
+else
+{
+    <p>No se han generado enfrentamientos.</p>
+}
 
 

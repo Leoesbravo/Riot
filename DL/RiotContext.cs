@@ -17,6 +17,8 @@ public partial class RiotContext : DbContext
 
     public virtual DbSet<DetallesPartidum> DetallesPartida { get; set; }
 
+    public virtual DbSet<Enfrentamiento> Enfrentamientos { get; set; }
+
     public virtual DbSet<Participante> Participantes { get; set; }
 
     public virtual DbSet<Partidum> Partida { get; set; }
@@ -44,6 +46,13 @@ public partial class RiotContext : DbContext
             entity.HasOne(d => d.IdPartidaNavigation).WithMany(p => p.DetallesPartida)
                 .HasForeignKey(d => d.IdPartida)
                 .HasConstraintName("FK__DetallesP__IdPar__2B3F6F97");
+        });
+
+        modelBuilder.Entity<Enfrentamiento>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToView("Enfrentamiento");
         });
 
         modelBuilder.Entity<Participante>(entity =>

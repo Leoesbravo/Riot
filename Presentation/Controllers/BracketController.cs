@@ -1,7 +1,8 @@
 ﻿using DL;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore;
 using Presentation.Models;
+using System.Linq;
 
 namespace Presentation.Controllers
 {
@@ -15,9 +16,16 @@ namespace Presentation.Controllers
         }
         public ActionResult Rondas()
         {
-            return View();
+            var enfrentamientosPrevios = _context.Enfrentamientos.ToList();
+
+            // Luego generas la nueva ronda
+            Models.Enfrentamiento newenfrentamiento = GenerarRonda(enfrentamientosPrevios);
+
+            ViewBag.Enfrentamientos = newenfrentamiento.Enfrentamientos;
+            ViewBag.descanso = newenfrentamiento.JuadorDescansa;
+            return View(newenfrentamiento);
         }
-        public ActionResult GenerarRonda()
+        public Models.Enfrentamiento GenerarRonda(List<DL.Enfrentamiento>? enfrentamientosPrevios)
         {
             // Obtén la lista de todos los usuarios registrados
             var usuarios = _context.Usuarios.ToList();
@@ -40,12 +48,12 @@ namespace Presentation.Controllers
             usuarios = usuarios.OrderBy(_ => Guid.NewGuid()).ToList();
 
             // Crea una lista de enfrentamientos con nombres de usuarios
-            Models.Enfrentamiento enfrentamiento = new Enfrentamiento();
-            enfrentamiento.Enfrentamientos = new List<object>();
+            Models.Enfrentamiento enfrentamiento = new Models.Enfrentamiento();
+            enfrentamiento.Enfrentamientos = new List<Models.Enfrentamiento>();
 
             for (int i = 0; i < usuarios.Count; i += 2)
             {
-                enfrentamiento.Enfrentamientos.Add(new Enfrentamiento
+                enfrentamiento.Enfrentamientos.Add(new Models.Enfrentamiento
                 {
                     NombreUsuario1 = usuarios[i].UserName,
                     NombreUsuario2 = usuarios[i + 1].UserName,
@@ -57,28 +65,30 @@ namespace Presentation.Controllers
             // Guarda la información temporalmente para mostrar al administrador
             //TempData["Enfrentamientos"] = enfrentamiento.Enfrentamientos;
             //TempData["IdJugadorDescanso"] = jugadorDescanso.IdUsuario;
-            ViewBag.descanso = jugadorDescanso.UserName;
+
             enfrentamiento.JuadorDescansa = jugadorDescanso.UserName;
 
-            return View(enfrentamiento);
+            return enfrentamiento;
         }
-
-
-        //Acción para confirmar la ronda
         [HttpPost]
-        public IActionResult ConfirmarRonda()
+        public IActionResult ConfirmarRonda(Models.Enfrentamiento enfrentamiento)
         {
-            // Recupera la información temporal de los enfrentamientos
-            var enfrentamientos = TempData["Enfrentamientos"] as List<Enfrentamiento>;
-            var idJugadorDescanso = TempData["IdJugadorDescanso"] as int?;
 
-            // Guarda la información en la base de datos (Partida, DetallesPartida, etc.)
-            // Implementa la lógica de guardado aquí
+            using (var db = new DL.RiotContext()) // Reemplaza 'TuContextoDeBaseDeDatos' con el nombre de tu propio contexto de base de datos
+            {
+                // Itera sobre los enfrentamientos y llama al procedimiento almacenado para cada uno
+                foreach (Models.Enfrentamiento item in enfrentamiento.Enfrentamientos)
+                {
+                    // Llama al procedimiento almacenado
+                    db.Database.ExecuteSqlRaw("CrearPartida {0}, {1}, {2}",
+                        enfrentamiento.Ronda, item.IdUsuario1, item.IdUsuario2);
+                }
+            }
 
-            return RedirectToAction("Index"); // Redirige a la página principal del torneo
+            return RedirectToAction("GenerarRonda"); 
         }
 
-        private bool EnfrentamientoDuplicado(Enfrentamiento enfrentamiento, IQueryable<Partidum> partidas)
+        private bool EnfrentamientoDuplicado(Models.Enfrentamiento enfrentamiento, IQueryable<Partidum> partidas)
         {
             // Obtén los IDs de los participantes involucrados en el enfrentamiento
             int idUsuario1 = enfrentamiento.IdUsuario1;
